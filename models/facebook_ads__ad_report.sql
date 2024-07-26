@@ -79,6 +79,24 @@ joined as (
         and ads.source_relation = ad_sets.source_relation
     {{ dbt_utils.group_by(10) }}
 )
+-- addition for conversion data
+select 
+	ads.source_relation,
+	ads.date_day,
+	ads.account_id,
+	ads.account_name,
+	ads.campaign_id,
+	ads.campaign_name,
+	ads.ad_set_id,
+	ads.ad_set_name,
+	ads.ad_id,
+	ads.ad_name,
+        ads.clicks,
+       	ads.impressions,
+       	ads.spend,
+        SUM(conversion.value) as conversions
 
-select *
-from joined
+         FROM joined ads
+         LEFT JOIN  {{ ref('stg_facebook_ads__conversion_data_conversions') }} conversion
+        ON ads.ad_id= CAST(conversion.ad_id As INT) and ads.date_day=conversion.date
+GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13

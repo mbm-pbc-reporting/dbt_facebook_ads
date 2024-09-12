@@ -70,9 +70,10 @@ joined as (
         on ads.campaign_id = campaigns.campaign_id
         and ads.source_relation = campaigns.source_relation
     {{ dbt_utils.group_by(12) }}
-)
+),
 
 -- addition for conversion data
+final as (    
 select 
         campaign.source_relation,
         campaign.date_day,
@@ -97,4 +98,6 @@ select
          and campaign.date_day= conv_data.date 
         LEFT JOIN  {{ ref('stg_facebook_ads__conversion_data_conversions') }} conversion
         ON conv_data.ad_id= conversion.ad_id  and conv_data.date=conversion.date
-GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+
+select * from final where DATE(date_day) >= DATE_ADD(CURRENT_DATE(), INTERVAL -2 YEAR

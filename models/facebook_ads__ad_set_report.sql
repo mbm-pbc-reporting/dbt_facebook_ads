@@ -111,4 +111,4 @@ final as (select
         LEFT JOIN  {{ ref('stg_facebook_ads__conversion_data_conversions') }} conversion
         ON conv_data.ad_id= conversion.ad_id  and conv_data.date=conversion.date
 GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
-select * from final where DATE(date_day) >= DATE_ADD(CURRENT_DATE(), INTERVAL -2 YEAR
+select * from final where DATE(date_day) >= DATE_ADD(CURRENT_DATE(), INTERVAL -2 YEAR)

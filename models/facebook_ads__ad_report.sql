@@ -90,7 +90,7 @@ final as (select
 	ads.campaign_name,
 	ads.ad_set_id,
 	ads.ad_set_name,
-	ads.targeting_publisher_platforms,
+	--ads.targeting_publisher_platforms,
 	ads.ad_id,
 	ads.ad_name,
         ads.clicks,
@@ -101,6 +101,6 @@ final as (select
          FROM joined ads
          LEFT JOIN  {{ ref('stg_facebook_ads__conversion_data_conversions') }} conversion
         ON ads.ad_id= CAST(conversion.ad_id As INT) and ads.date_day=conversion.date
-GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14)
+GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13)
 
 select * from final where DATE(date_day) >= DATE_ADD(CURRENT_DATE(), INTERVAL -2 YEAR)

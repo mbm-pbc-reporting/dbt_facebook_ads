@@ -57,7 +57,7 @@ joined as (
         campaigns.campaign_name,
         ad_sets.ad_set_id,
         ad_sets.ad_set_name,
-	ad_sets.targeting_publisher_platforms,
+	--ad_sets.targeting_publisher_platforms,
         ads.ad_id,
         ads.ad_name,
         sum(report.clicks) as clicks,
@@ -78,7 +78,7 @@ joined as (
     left join ad_sets
         on ads.ad_set_id = ad_sets.ad_set_id
         and ads.source_relation = ad_sets.source_relation
-    {{ dbt_utils.group_by(11) }}
+    {{ dbt_utils.group_by(10) }}
 ),
 -- addition for conversion data
 final as (select 
